@@ -17,3 +17,5 @@ venv/
 *.log
 instance/
 *.sqlite3
+
+.env

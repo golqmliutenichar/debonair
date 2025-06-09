@@ -1,16 +1,24 @@
-FROM python:3.10-slim
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-      build-essential \
- && rm -rf /var/lib/apt/lists/*
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-RUN adduser --disabled-password --gecos "" debonair
-USER debonair
-WORKDIR /home/debonair/app
-COPY --chown=debonair:debonair requirements.txt .
+# ─── build & runtime in ONE image ─────────────────────────────────
+FROM ubuntu:22.04
+
+# 1. system packages -------------------------------------------------
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        python3 python3-pip python3-venv nginx supervisor netcat && \
+    rm -rf /var/lib/apt/lists/*
+
+# 2. python deps -----------------------------------------------------
+WORKDIR /srv/app
+COPY requirements.txt .
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
-COPY --chown=debonair:debonair . .
-EXPOSE 5000
-ENTRYPOINT ["python3", "app.py"]
-CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "workers", "3", "app:app" ]
+
+# 3. copy code & nginx ----------------------------------------------
+COPY app/        ./app
+COPY nginx/nginx.conf   /etc/nginx/nginx.conf
+
+# 4. supervisor to run **both** processes ---------------------------
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 80
+HEALTHCHECK CMD curl -f http://localhost/ || exit 1
+CMD ["/usr/bin/supervisord","-n"]
