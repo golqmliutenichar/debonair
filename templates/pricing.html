@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% set title = "Pricing" %}
+{% set page = "pricing" %}
+
+{% block content %}
+  <section class="pricing-section">
+    <h1>Pricing Plans</h1>
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th>Plan Name</th>
+          <th>Price</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for plan in plans %}
+          <tr>
+            <td>{{ plan.name }}</td>
+            <td>{{ plan.price }}</td>
+            <td>{{ plan.details }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="note">All taxes included.</p>
+    <p class="text-center">
+      <a href="{{ url_for('reserve') }}" class="btn">Reserve a Station</a>
+    </p>
+  </section>
+{% endblock %}

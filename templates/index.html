@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% set title = "Home" %}
+{% set page = "home" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>Welcome to Debonair Café</h1>
+    {% if daily_special %}
+      <p class="special-banner"><strong>Today's Special:</strong> {{ daily_special }}</p>
+    {% endif %}
+    <p>Your neighborhood Internet café—fast Wi-Fi, comfortable seating, and great coffee.</p>
+    <p><a class="btn" href="{{ url_for('stations') }}">View Our Stations</a></p>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <h2>High-Speed Internet</h2>
+      <p>Up to 1 Gbps fiber connection. Perfect for streaming, gaming, or remote work.</p>
+    </div>
+    <div class="feature">
+      <h2>Craft Coffee & Snacks</h2>
+      <p>Locally roasted espresso, fresh pastries, and snacks made daily.</p>
+    </div>
+    <div class="feature">
+      <h2>Comfort & Ambiance</h2>
+      <p>Ergonomic chairs, plenty of power outlets, and a cozy atmosphere.</p>
+    </div>
+  </section>
+{% endblock %}

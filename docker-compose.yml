@@ -1,0 +1,30 @@
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │  docker-compose.yml for Debonair Café Flask app (host networking mode)     │
+# └─────────────────────────────────────────────────────────────────────────────┘
+
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Give the container full access to the VM’s network stack
+    network_mode: "host"
+
+    # Environment variables – override DB_HOST with your DCVM’s IP or hostname
+    environment:
+      # For example: "dc.home.arpa" or "192.168.10.10" (your on-prem DC’s address)
+      DB_HOST: "dc.home.arpa"
+      DB_PORT: "1433"        # or 3306 or whatever port your DB listens on
+      DB_NAME: "DebonairDB"  # whatever database name you intend to use
+      DB_USER: "dbuser"      # adjust as needed
+      DB_PASS: "secret"      # please use Docker secrets in prod
+      FLASK_ENV: "production"  
+      # If you ever split into a "frontend" vs. "backend" service, you can add more here
+
+    # By using host networking, your containers will bind directly to
+    # the same IP as the VM (e.g. 10.40.1.4), and you can just hit http://10.40.1.4:5000
+    # from other VMs in the same VNet (e.g. AD VM in 192.168.10.x via your IPsec tunnel).
+    # Restart policy so it auto‐restarts on failure
+    restart: unless-stopped

@@ -1,0 +1,19 @@
+# Byte-code / caching
+__pycache__/
+*.py[cod]
+
+# Virtual-envs
+.venv/
+env/
+venv/
+
+# Editors / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Logs & runtime
+*.log
+instance/
+*.sqlite3

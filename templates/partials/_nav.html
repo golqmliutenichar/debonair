@@ -1,0 +1,38 @@
+<header>
+  <div class="nav-container">
+    <a class="logo-link" href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Debonair Café Logo" height="36" />
+    </a>
+    <button class="nav-toggle">☰</button>
+
+    <nav class="main-nav">
+      <ul>
+        <li>
+          <a href="{{ url_for('home') }}" {% if page=='home' %}class="active"{% endif %}>
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('pricing') }}" {% if page=='pricing' %}class="active"{% endif %}>
+            Pricing
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('stations') }}" {% if page=='stations' %}class="active"{% endif %}>
+            Stations
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('reserve') }}" {% if page=='reserve' %}class="active"{% endif %}>
+            Reserve
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('contact_get') }}" {% if page=='contact' %}class="active"{% endif %}>
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,282 @@
+/* ---------------- Reset & Base ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------- Container Layout ---------------- */
+main, header, footer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ---------------- Header / Navigation ---------------- */
+header {
+  background-color: #333;
+  color: white;
+}
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo-link img {
+  height: 36px;
+}
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+.main-nav a {
+  color: white;
+  padding: 0.5rem;
+}
+.main-nav a.active,
+.main-nav a:hover {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+/* ---------------- Flash Messages ---------------- */
+.flash-messages {
+  max-width: 960px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+.flash {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.flash-success {
+  background-color: #e6ffed;
+  border: 1px solid #8edd92;
+  color: #27632a;
+}
+.flash-warning {
+  background-color: #fff8e6;
+  border: 1px solid #ffd27f;
+  color: #66531b;
+}
+
+/* ---------------- Hero (Home) ---------------- */
+.hero {
+  background-color: #fff;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.hero p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+.btn {
+  display: inline-block;
+  background-color: #0066cc;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #0055a3;
+}
+.special-banner {
+  background-color: #fffae6;
+  border-left: 4px solid #ffc107;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  font-size: 1.1rem;
+  color: #66531b;
+}
+
+/* ---------------- Features (Home) ---------------- */
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.feature {
+  flex: 1 1 30%;
+  background-color: white;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.feature h2 {
+  margin-bottom: 0.5rem;
+}
+
+/* ---------------- Pricing ---------------- */
+.pricing-section {
+  background-color: white;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+.pricing-section h1 {
+  margin-bottom: 1rem;
+}
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.pricing-table th,
+.pricing-table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.pricing-table thead {
+  background-color: #0066cc;
+  color: white;
+}
+.pricing-table tbody tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+.note {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #555;
+}
+
+/* ---------------- Stations ---------------- */
+.stations-section {
+  margin-bottom: 2rem;
+}
+.stations-section h1 {
+  margin-bottom: 1rem;
+}
+.station-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.station-img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 1rem;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+}
+.station-info h2 {
+  margin-bottom: 0.5rem;
+}
+
+/* ---------------- Contact ---------------- */
+.contact-section {
+  background-color: white;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+.contact-section h1 {
+  margin-bottom: 0.5rem;
+}
+.contact-form {
+  display: grid;
+  gap: 1rem;
+}
+.contact-form label {
+  font-weight: 500;
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.contact-form button {
+  width: fit-content;
+}
+
+/* ---------------- Reserve ---------------- */
+.reserve-section {
+  background-color: white;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+.reserve-section h1 {
+  margin-bottom: 1rem;
+}
+.reserve-form {
+  display: grid;
+  gap: 1rem;
+}
+.reserve-form label {
+  font-weight: 500;
+}
+.reserve-form input,
+.reserve-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.reserve-form button {
+  width: fit-content;
+}
+
+/* ---------------- Footer ---------------- */
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+  color: #666;
+  font-size: 0.9rem;
+  border-top: 1px solid #ddd;
+}
+
+/* ---------------- Responsive Breakpoints ---------------- */
+@media (max-width: 720px) {
+  .features {
+    flex-direction: column;
+  }
+  .station-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .station-img {
+    margin: 0 auto 1rem;
+  }
+  .main-nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

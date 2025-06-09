@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include "partials/_head.html" %}
+
+  <body>
+    {% include "partials/_nav.html" %}
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, msg in messages %}
+              <div class="flash flash-{{ category }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+    {% include "partials/_footer.html" %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
