@@ -3,19 +3,20 @@ version: "3.9"
 services:
   web:                   # ← everything that belongs to *this* service
     build: .
-    container_name: debonair_web
+    container_name: debonair
     env_file: .env
     restart: unless-stopped
-    networks:
-      cafe-net:
-        ipv4_address: 10.40.1.4   # line ① – inside the service block
 
     ports:            # ← must be **inside** the service block
       - "80:80"
 
+    networks:
+      cafe-net:
+        ipv4_address: 10.40.1.4
+
 networks:
-  cafe-net:           # ← a sibling of “services”, not nested below it
+  cafe-net:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.40.1.0/24    # line ② – inside ipam-config list
+        - subnet: 10.40.1.0/24

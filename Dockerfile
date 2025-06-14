@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 # 1. system packages -------------------------------------------------
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        python3 python3-pip python3-venv nginx supervisor netcat && \
+        python3 python3-pip python3-venv nginx supervisor netcat curl && \
     rm -rf /var/lib/apt/lists/*
 
 # 2. python deps -----------------------------------------------------
@@ -22,3 +22,7 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 80
 HEALTHCHECK CMD curl -f http://localhost/ || exit 1
 CMD ["/usr/bin/supervisord","-n"]
+
+
+#HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
+#CMD curl -fs http://localhost/ || exit 1

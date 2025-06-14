@@ -5,6 +5,13 @@ import os
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev-only-secret")   # ← NEW: comes from .env
 
+DB_URL = (
+	f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}"
+	f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = DB_URL
+
 # Make “now” available inside any template (for {{ now().year }} in footer)
 @app.context_processor
 def inject_now():
@@ -21,6 +28,10 @@ SPECIALS = {
     "Saturday":  "Bring a friend—2‐for‐1 on any drip coffee.",
     "Sunday":    "Family brunch: 3 pancakes + coffee for $7."
 }
+
+@app.get("/health")
+def health():
+	return {"status": "ok"}, 200
 
 @app.route("/", methods=["GET"])
 def home():
