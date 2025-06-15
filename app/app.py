@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from datetime import datetime
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path= '/static')
 app.secret_key = os.getenv("SECRET_KEY", "dev-only-secret")   # ← NEW: comes from .env
 
 DB_URL = (
