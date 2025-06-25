@@ -117,7 +117,7 @@ def reserve():
                     INSERT INTO reservations (name,email,station_id,timeslot)
                     VALUES (%s,%s,%s,NOW())
                     """,
-                    (name, email, station_id)      # ← no stray comma!
+                    (name, email, station_id)    
                 )
             flash("Reservation saved—see you soon!", "success")
         except Exception:

@@ -4,7 +4,6 @@ from werkzeug.security import check_password_hash
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
-# ── helpers ──────────────────────────────────────────────────────────────────
 def _get_db_conn():
     return pymysql.connect(
         host=os.getenv("DB_HOST"),
