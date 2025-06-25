@@ -1,16 +1,18 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from datetime import datetime
-import os
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash
+import os, pymysql
+
 
 app = Flask(__name__, static_folder='static', static_url_path= '/static')
-app.secret_key = os.getenv("SECRET_KEY", "dev-only-secret")   # ← NEW: comes from .env
-
-DB_URL = (
-	f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}"
-	f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+app.secret_key = os.getenv("SECRET_KEY", "dev-only-secret")
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"mysql+pymysql://{os.environ['DB_USER']}:{os.environ['DB_USER_PWD']}"
+    f"@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
 )
-
-app.config["SQLALCHEMY_DATABASE_URI"] = DB_URL
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
 
 # Make “now” available inside any template (for {{ now().year }} in footer)
 @app.context_processor
@@ -32,6 +34,45 @@ SPECIALS = {
 @app.get("/health")
 def health():
 	return {"status": "ok"}, 200
+# temporary
+@app.route("/admincreate", methods=["GET", "POST"])
+def admin_create():
+    if request.method == "POST":
+        username = request.form.get("username", ""). strip()
+        email = request.form.get("email", "").strip()
+        password = request.form.get("password", "")
+        super_flag = bool(request.form.get("is_superadmin"))
+
+        if not (username and email and password):
+            flash("all fields", "danger")
+            return redirect(request.url)
+        pwd_hash =generate_password_hash(password, method="pbkdf2:sha256", salt_length=16)
+
+        sql = """
+            INSERT INTO admin_users
+                (username, email, password_hash, is_superadmin)
+            VALUES (%s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                password_hash = VALUES(password_hash),
+                is_superadmin = VALUES(is_superadmin)        
+            """
+        try:
+            conn = pymysql.connect(
+                host=os.getenv("DB_HOST"),
+                port=int(os.getenv("DB_PORT", 3306)),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_USER_PWD"),
+                database=os.getenv("DB_NAME"),
+                autocommit=True,
+            )
+            with conn.cursor() as cur:
+                cur.execute(sql, (username, email, pwd_hash, int(super_flag)))
+            conn.close()
+            flash(f"{username}", "success")
+        except Exception as exc:
+            flash(f"DB error: {exc}", "danger")
+        return redirect(request.url)
+    return render_template("admin_create.html")
 
 @app.route("/", methods=["GET"])
 def home():
