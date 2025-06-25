@@ -1,28 +1,35 @@
 {% extends "base.html" %}
-{% block page_title %}Admin · Log in{% endblock %}
+{% set title  = "Admin Login" %}
+{% set page   = "login" %}
 
 {% block content %}
-<h2 class="text-center mt-4">Admin sign-in</h2>
+<section class="login-section">
+  <h1>Admin Login</h1>
 
-{% with messages = get_flashed_messages(with_categories=True) %}
-  {% if messages %}
-    {% for cat, msg in messages %}
-      <div class="alert alert-{{ cat }}">{{ msg }}</div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+  {% with msgs = get_flashed_messages(with_categories=True) %}
+    {% if msgs %}
+      {% for cat, msg in msgs %}
+        <div class="alert alert-{{cat}}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
-<form method="post" class="mx-auto" style="max-width:340px">
-  <div class="mb-3">
-    <label class="form-label">Username</label>
-    <input name="username" class="form-control" required>
-  </div>
+  <form action="{{ url_for('auth.login') }}" method="POST" class="login-form">
+    <div>
+      <label for="username">Username</label>
+      <input type="text"
+             id="username" name="username"
+             required autofocus>
+    </div>
 
-  <div class="mb-3">
-    <label class="form-label">Password</label>
-    <input name="password" type="password" class="form-control" required>
-  </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password"
+             id="password" name="password"
+             required>
+    </div>
 
-  <button class="btn btn-primary w-100">Log in</button>
-</form>
+    <button type="submit" class="btn">Log In</button>
+  </form>
+</section>
 {% endblock %}

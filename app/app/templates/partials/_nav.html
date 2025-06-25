@@ -6,29 +6,17 @@
     <nav class="main-nav">
       <ul>
         <li>
-          <a href="{{ url_for('main.home') }}" {% if page=='home' %}class="active"{% endif %}>
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('main.pricing') }}" {% if page=='pricing' %}class="active"{% endif %}>
-            Pricing
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('main.stations') }}" {% if page=='stations' %}class="active"{% endif %}>
-            Stations
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('main.reserve') }}" {% if page=='reserve' %}class="active"{% endif %}>
-            Reserve
-          </a>
-        </li>
-        <li>
-          <a href="{{ url_for('main.contact_get') }}" {% if page=='contact' %}class="active"{% endif %}>
-            Contact
-          </a>
+          <a href="{{ url_for('main.home') }}">Home</a>
+          <a href="{{ url_for('main.pricing') }}">Pricing</a>
+          <a href="{{ url_for('main.stations') }}">Stations</a>
+          <a href="{{ url_for('main.reserve') }}">Reserve</a>
+          <a href="{{ url_for('main.contact') }}">Contact</a>
+          {% if session.get('admin') %}
+            <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('auth.logout') }}">Log out</a>
+          {% else %}
+            <a href="{{ url_for('auth.login') }}">Admin Login</a>
+          {% endif %}
         </li>
       </ul>
     </nav>

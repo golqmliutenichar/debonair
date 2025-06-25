@@ -70,36 +70,32 @@ def stations():
     return render_template("stations.html", page="stations", station_list=stations)
 
 # ---------- contact ----------
-@bp.get("/contact")
-def contact_get():
+@bp.route("/contact", methods=["GET", "POST"])
+def contact():
+    if request.method == "POST":
+        name    = request.form.get("name","").strip()
+        email   = request.form.get("email","").strip()
+        message = request.form.get("message","").strip()
+
+        if not all([name,email,message]):
+            flash("All fields are required","warning")
+            return redirect(url_for("main.contact"))
+
+        try:
+            with _get_db_conn().cursor() as cur:
+                cur.execute("""
+                    INSERT INTO contact (name,email,message)
+                    VALUES (%s,%s,%s)
+                """, (name,email,message))
+            flash("Thanks! We’ll get back to you ASAP.","success")
+        except Exception as exc:
+            current_app.logger.exception(exc)
+            flash("Sorry &ndash; something went wrong.","danger")
+
+        return redirect(url_for("main.contact"))
+
+    # GET
     return render_template("contact.html", page="contact")
-
-@bp.post("/contact")
-def contact_post():
-    name    = request.form.get("name","").strip()
-    email   = request.form.get("email","").strip()
-    message = request.form.get("message","").strip()
-
-    if not all([name, email, message]):
-        flash("All fields are required.", "warning")
-        return redirect(url_for("main.contact_get"))
-
-    try:
-        conn = get_db()
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                INSERT INTO contact (name,email,message)
-                VALUES (%s,%s,%s)
-                """,
-                (name, email, message)
-            )
-        flash("Thanks {}! We’ll get back to you shortly.".format(name), "success")
-    except Exception:
-        current_app.logger.exception("Failed to insert contact form")
-        flash("Server error—please try again later.", "danger")
-
-    return redirect(url_for("main.contact_get"))  # ← endpoint is main.contact_get
 
 # ---------- reserve ----------
 @bp.route("/reserve", methods=["GET","POST"])
