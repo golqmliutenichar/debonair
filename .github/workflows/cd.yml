@@ -1,0 +1,50 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: production        # gives you an “environment” view in GH UI
+
+    steps:
+      # 1‒ Checkout code
+      - uses: actions/checkout@v4
+
+      # 2‒ Login to Docker Hub (swap for ghcr if you prefer)
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3‒ Build & push image. Tag = short commit SHA
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/debonair:${{ github.sha }}
+
+      # 4‒ Deploy on remote host
+      - name: SSH — deploy new image
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          REGISTRY:  ${{ secrets.DOCKERHUB_USERNAME }}/debonair
+          DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
+        with:
+          host: ${{ secrets.SERVER_SSH_HOST }}
+          username: ${{ secrets.SERVER_SSH_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            set -e
+            cd "$DEPLOY_DIR"
+            # update compose file image tag (lightweight) or just pull latest tag
+            # here we assume docker-compose.yml uses ${IMAGE_TAG} env var
+            export IMAGE_TAG=$IMAGE_TAG
+            docker compose pull web
+            docker compose up -d
+            docker image prune -f --filter "until=24h"
