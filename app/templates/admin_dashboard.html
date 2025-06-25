@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block page_title %}Admin · Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Hello, {{ admin }}!</h2>
+  <p class="text-muted">UTC time → {{ now().strftime("%Y-%m-%d %H:%M:%S") }}</p>
+
+  <hr>
+  <h4>Quick links</h4>
+  <ul>
+    <li><a href="{{ url_for('main.home') }}">Back to site</a></li>
+    <li><a href="{{ url_for('auth.logout') }}">Log out</a></li>
+  </ul>
+</div>
+{% endblock %}

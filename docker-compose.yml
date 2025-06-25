@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  web:                   # ← everything that belongs to *this* service
+  web:                  
     build: .
     container_name: debonair
     env_file: .env
@@ -13,3 +13,8 @@ services:
     ports:           
       - "80:80"
       - "443:443"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]  
+      interval: 30s
+      timeout: 5s
+      retries: 3

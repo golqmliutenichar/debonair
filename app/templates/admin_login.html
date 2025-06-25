@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block page_title %}Admin · Log in{% endblock %}
+
+{% block content %}
+<h2 class="text-center mt-4">Admin sign-in</h2>
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for cat, msg in messages %}
+      <div class="alert alert-{{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form method="post" class="mx-auto" style="max-width:340px">
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input name="username" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input name="password" type="password" class="form-control" required>
+  </div>
+
+  <button class="btn btn-primary w-100">Log in</button>
+</form>
+{% endblock %}
