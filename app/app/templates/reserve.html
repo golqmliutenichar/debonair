@@ -5,7 +5,7 @@
 {% block content %}
   <section class="reserve-section">
     <h1>Reserve a Station</h1>
-    <form action="{{ url_for('reserve') }}" method="POST" class="reserve-form">
+    <form action="{{ url_for('main.reserve') }}" method="POST" class="reserve-form">
       <div>
         <label for="name">Your Name:</label>
         <input type="text" id="name" name="name" required />

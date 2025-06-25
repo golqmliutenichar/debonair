@@ -13,7 +13,7 @@ COPY requirements.txt .
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
 # 3. copy code + nginx
-COPY app/          /srv/app/app
+COPY app/          /srv/app
 COPY nginx/nginx.conf  /etc/nginx/nginx.conf
 COPY docker/supervisord.conf  /etc/supervisor/conf.d/supervisord.conf
 

@@ -35,7 +35,7 @@ def load_user(user_id: str):
 
 
 # ---------- factory -------------
-def create_app() -> Flask:
+def create_app():
     app = Flask(__name__, static_folder="static", static_url_path="/static")
 
     # ---- core config ----
